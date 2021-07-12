@@ -1,0 +1,6 @@
+source:
+  - /source/path
+dest:
+  - /destination/path1
+  - /destination/path2
+  - /destination/path3
