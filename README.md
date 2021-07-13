@@ -23,7 +23,6 @@ source .venv/bin/activate
 pip install poetry
 poetry install
 cp config-example.yaml config.yaml # Fill config.yaml with your values
-python index.py
 ```
 
 ## Run
