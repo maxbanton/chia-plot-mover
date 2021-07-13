@@ -5,6 +5,7 @@ Script is automatically looking for space across specified list of destinations 
 
 ## Install
 Python 3.7 or newer is required. Should be in place if you already using official chia client.
+Tested on Ubuntu 20.04
 
 Semi automated:
 ```bash
