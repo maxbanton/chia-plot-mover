@@ -7,7 +7,7 @@ import yaml
 
 CONFIG_FILE_NAME = 'config.yaml'
 SLEEP_PERIOD = 600
-MIN_K32_PLOT_SIZE = 108800000000
+MIN_K32_PLOT_SIZE = 108000000000
 
 
 class PlotMover:
