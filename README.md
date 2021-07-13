@@ -6,13 +6,25 @@ Script is automatically looking for space across specified list of destinations 
 ## Install
 Python 3.7 or newer is required. Should be in place if you already using official chia client.
 
+Semi automated:
 ```bash
 git clone https://github.com/maxbanton/chia-plot-mover.git
 cd chia-plot-mover
 sh install.sh
-cp config-example.yaml config.yaml
+cp config-example.yaml config.yaml # Fill config.yaml with your values
 ```
-Fill config.yaml with your values
+
+Manual:
+```bash
+git clone https://github.com/maxbanton/chia-plot-mover.git
+cd chia-plot-mover
+python -m venv .venv
+source .venv/bin/activate
+pip install poetry
+poetry install
+cp config-example.yaml config.yaml # Fill config.yaml with your values
+python index.py
+```
 
 ## Run
 Tip: Since plotting is long running process, running plot mover in screen session would be preferable
