@@ -54,6 +54,8 @@ class PlotMover:
                 if size < MIN_K32_PLOT_SIZE:
                     raise Exception(f'Plot file {plot_path} size is to small. Is it real plot?')
 
+                print(f'Found plot {plot_path} of size {size // (2**30)} GiB')
+
                 dest_dir = self._look_for_space(size)
 
                 if dest_dir:
@@ -62,10 +64,13 @@ class PlotMover:
                     if os.path.isfile(dest_path):
                         raise Exception(f'Plot file {dest_path} already exists. Duplicate?')
 
+                    print(f'Starting to move plot from {plot_path} to {dest_path}')
                     temp_dest_path = dest_path + '.copy'
+                    start = time.time()
                     shutil.move(plot_path, temp_dest_path)
+                    duration = time.time() - start
                     shutil.move(temp_dest_path, dest_path)
-                    print(f'Plot moved from {plot_path} to {dest_path}')
+                    print(f'Done, time: {round(duration, 1)} s, avg speed: {(size/duration) // (2**20)} MiB/s')
                 else:
                     raise Exception(f'No space can be found for plot {plot_path} of size {size}')
             else:
