@@ -62,7 +62,9 @@ class PlotMover:
                     if os.path.isfile(dest_path):
                         raise Exception(f'Plot file {dest_path} already exists. Duplicate?')
 
-                    shutil.move(plot_path, dest_path)
+                    temp_dest_path = dest_path + '.copy'
+                    shutil.move(plot_path, temp_dest_path)
+                    shutil.move(temp_dest_path, dest_path)
                     print(f'Plot moved from {plot_path} to {dest_path}')
                 else:
                     raise Exception(f'No space can be found for plot {plot_path} of size {size}')
