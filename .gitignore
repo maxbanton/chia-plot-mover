@@ -2,3 +2,4 @@
 .idea
 /config.yaml
 /src/__pycache__
+/source/*.plot
