@@ -89,10 +89,10 @@ class PlotMover:
 
                 logger.info(f'Main thread: Found plot {plot_path} of size {size // (2 ** 30)} GiB')
 
-                dest_dir = self._look_for_destination(size)
+                dst_dir = self._look_for_destination(size)
 
-                if dest_dir:
-                    thread = threading.Thread(target=self.move_plot, args=(src_dir, file, dest_dir, size, self._lock))
+                if dst_dir:
+                    thread = threading.Thread(target=self.move_plot, args=(src_dir, file, dst_dir, size, self._lock))
                     thread.start()
                 else:
                     logger.warning(f'Main thread: No destination available for plot {plot_path}')
