@@ -1,3 +1,8 @@
+# time (sec) between checking for new plots
+sleep: 60
+# time (sec) between spawning new copy threads
+debounce: 2
+
 source:
   - /source/path
 dest:
