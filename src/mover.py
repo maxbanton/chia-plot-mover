@@ -20,6 +20,7 @@ class PlotMover:
     def __init__(self):
         self._config = self._read_config()
         self._lock = Lock()
+        self._mutex = threading.Lock()
 
     def _read_config(self):
         current_dir = os.path.dirname(__file__)
@@ -55,7 +56,7 @@ class PlotMover:
                 return dir_
 
     @staticmethod
-    def move_plot(src_dir, plot_file, dst_dir, size, lock):
+    def move_plot(self, src_dir, plot_file, dst_dir, size, lock):
         src_path = os.path.join(src_dir, plot_file)
         dst_path = os.path.join(dst_dir, plot_file)
         temp_dst_path = dst_path + '.move'
@@ -74,8 +75,14 @@ class PlotMover:
         speed = (size / duration) // (2 ** 20)
         logger.info(f'Copy thread: Plot file {src_path} moved, time: {duration} s, avg speed: {speed} MiB/s')
 
-        lock.plot.remove(plot_file)
-        lock.dest.remove(dst_dir)
+        if dst_dir not in self._lock.dest:
+            self._mutex.acquire()
+            lock.plot.append(plot_file)
+            lock.dest.append(dst_dir)
+            self._mutex.release()
+        else:
+            None
+
 
     def main(self):
         while True:
@@ -92,7 +99,7 @@ class PlotMover:
                 dst_dir = self._look_for_destination(size)
 
                 if dst_dir:
-                    thread = threading.Thread(target=self.move_plot, args=(src_dir, file, dst_dir, size, self._lock))
+                    thread = threading.Thread(target=self.move_plot, args=(self, src_dir, file, dst_dir, size, self._lock))
                     thread.start()
                 else:
                     logger.warning(f'Main thread: No destination available for plot {plot_path}')
