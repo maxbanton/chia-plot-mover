@@ -12,7 +12,6 @@ from src.logger import logger
 
 class PlotMover:
     CONFIG_FILE_NAME = 'config.yaml'
-    SLEEP_PERIOD = 300
     MIN_K32_PLOT_SIZE = 108 * 10 ** 9
 
     _config: Dict
@@ -89,6 +88,8 @@ class PlotMover:
 
                 logger.info(f'Main thread: Found plot {plot_path} of size {size // (2 ** 30)} GiB')
 
+                time.sleep(self._config.get('debounce'))
+
                 dst_dir = self._look_for_destination(size)
 
                 if dst_dir:
@@ -96,7 +97,7 @@ class PlotMover:
                     thread.start()
                 else:
                     logger.warning(f'Main thread: No destination available for plot {plot_path}')
-                    time.sleep(self.SLEEP_PERIOD)
+                    time.sleep(self._config.get('sleep'))
             else:
-                logger.info(f'Main thread: No plots found. Sleep for {self.SLEEP_PERIOD}s')
-                time.sleep(self.SLEEP_PERIOD)
+                logger.info(f"Main thread: No plots found. Sleep for {self._config.get('sleep')}s")
+                time.sleep(self._config.get('sleep'))
