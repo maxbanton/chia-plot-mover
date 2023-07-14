@@ -49,10 +49,14 @@ class PlotMover:
         return result
 
     def _look_for_destination(self, needed_space) -> str:
+        emptiest_dir = None
+        emptiest_dir_free = 0
         for dir_ in self._config.get('dest'):
             _, _, free = shutil.disk_usage(dir_)
-            if free > needed_space and dir_ not in self._lock.dest:
-                return dir_
+            if free > needed_space and dir_ not in self._lock.dest and free > emptiest_dir_free:
+                emptiest_dir = dir_
+                emptiest_dir_free = free
+        return emptiest_dir
 
     @staticmethod
     def move_plot(self, src_dir, plot_file, dst_dir, size, lock):
